@@ -72,9 +72,6 @@ export const loadCaptchaEnginge = (numberOfCharacters, backgroundColor = 'white'
     ctx.font = "italic 20px Arial";
     ctx.fillStyle = fontColor;
 
-
-
-
     let num = 0;
     for (let i = 0; i < parseInt(length); i++) {
         num = parseInt(num) + 1;
@@ -83,22 +80,13 @@ export const loadCaptchaEnginge = (numberOfCharacters, backgroundColor = 'white'
     }
 
     const reload_hrefs = document.getElementsByClassName("reload_href");
-    // reload_hrefs.forEach(reload_href => {
-    //     reload_href.onclick = function () {
-    //         loadCaptchaEnginge(captcha_number, backgroundColor, fontColor, charMap);
-    //     }
-    // });
+   
     for (const reload_href of reload_hrefs) {
         reload_href.onclick = function () {
-                loadCaptchaEnginge(captcha_number, backgroundColor, fontColor, charMap);
-            }
+            loadCaptchaEnginge(captcha_number, backgroundColor, fontColor, charMap);
+        }
     }
-    // document.getElementsByClassName("reload_href").onclick = function () {
-    //     loadCaptchaEnginge(captcha_number, backgroundColor, fontColor, charMap);
-    // }
-      }
-        
-
+      }    
 };
 
 export const validateCaptcha = (userValue, reload = true) => {
