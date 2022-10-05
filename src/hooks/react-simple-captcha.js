@@ -6,8 +6,8 @@ let captcha_number = '';
 let backgroundColor_value = '';
 let fontColor_value = '';
 let charMap_value = '';
-let LoadCanvasTemplate_HTML = "<div><canvas id=\"canv\"></canvas><div><a id=\"reload_href\"  style=\"cursor: pointer; color: blue\">Reload Captcha</a></div></div>";
-let LoadCanvasTemplateNoReload_HTML = "<div><canvas id=\"canv\"></canvas><div><a id=\"reload_href\"  style=\"cursor: pointer; color: blue\"></a></div></div>";;
+let LoadCanvasTemplate_HTML = "<div><canvas class=\"canv\"></canvas><div><a class=\"reload_href\"  style=\"cursor: pointer; color: blue\">Reload Captcha</a></div></div>";
+let LoadCanvasTemplateNoReload_HTML = "<div><canvas class=\"canv\"></canvas><div><a class=\"reload_href\"  style=\"cursor: pointer; color: blue\"></a></div></div>";;
 
 
 export const loadCaptchaEnginge = (numberOfCharacters, backgroundColor = 'white', fontColor = 'black', charMap = '') => {
@@ -46,9 +46,11 @@ export const loadCaptchaEnginge = (numberOfCharacters, backgroundColor = 'white'
 
     let length_height_canvas = Math.round(parseInt(length) / 3);
 
-    let canvas = document.getElementById('canv'),
-        ctx = canvas.getContext('2d'),
-        img = document.getElementById('image');
+    let canvases = document.getElementsByClassName('canv');
+
+    for (const canvas of canvases) {
+        let ctx = canvas.getContext('2d');
+        let img = document.getElementById('image');
     let text = captcha;
     let x = 12.5;
     let y = 15;
@@ -80,9 +82,22 @@ export const loadCaptchaEnginge = (numberOfCharacters, backgroundColor = 'white'
         ctx.fillText(retVal[i], heigt_num, Math.round(Math.random() * (15 - 12) + 12));
     }
 
-    document.getElementById("reload_href").onclick = function () {
-        loadCaptchaEnginge(captcha_number, backgroundColor, fontColor, charMap);
+    const reload_hrefs = document.getElementsByClassName("reload_href");
+    // reload_hrefs.forEach(reload_href => {
+    //     reload_href.onclick = function () {
+    //         loadCaptchaEnginge(captcha_number, backgroundColor, fontColor, charMap);
+    //     }
+    // });
+    for (const reload_href of reload_hrefs) {
+        reload_href.onclick = function () {
+                loadCaptchaEnginge(captcha_number, backgroundColor, fontColor, charMap);
+            }
     }
+    // document.getElementsByClassName("reload_href").onclick = function () {
+    //     loadCaptchaEnginge(captcha_number, backgroundColor, fontColor, charMap);
+    // }
+      }
+        
 
 };
 
@@ -105,7 +120,7 @@ export class LoadCanvasTemplate extends Component {
     render() {
         let reload_text = "";
         let reload_color = "";
-        LoadCanvasTemplate_HTML = "<div><canvas id=\"canv\" style=\"background-color: blue;\"></canvas><div><a id=\"reload_href\"  style=\"cursor: pointer; color: blue\">Reload Captcha</a></div></div>";
+        LoadCanvasTemplate_HTML = "<div><canvas class=\"canv\" style=\"background-color: blue;\"></canvas><div><a class=\"reload_href\"  style=\"cursor: pointer; color: blue\">Reload Captcha</a></div></div>";
 
         if (this.props.reloadText) {
             reload_text = this.props.reloadText;
@@ -125,7 +140,7 @@ export class LoadCanvasTemplate extends Component {
             reload_color = "blue";
         }
 
-        LoadCanvasTemplate_HTML = "<div><canvas id=\"canv\"></canvas><div><a id=\"reload_href\"  style=\"cursor: pointer; color: " + reload_color + "\">" + reload_text + "</a></div></div>";
+        LoadCanvasTemplate_HTML = "<div><canvas class=\"canv\"></canvas><div><a class=\"reload_href\"  style=\"cursor: pointer; color: " + reload_color + "\">" + reload_text + "</a></div></div>";
 
         return (ReactHtmlParser(LoadCanvasTemplate_HTML));
     }
